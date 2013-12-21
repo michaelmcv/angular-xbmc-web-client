@@ -1,0 +1,28 @@
+<p>XBMC photo gallery</p>
+
+<input type="search" ng-model="q" placeholder="filter photos..." />
+
+<ul>
+    <li ng-repeat="dir in dirs.list | filter:q">
+        <a href="" ng-click='changeRootContext(dir.file)'>{{dir.label}}</a>
+    </li>
+    <li> <a href="" ng-cloak ng-click='returnToStart()'>Back to Root</a>
+    </li>
+</ul>
+
+<div ng-show="hasPhotos">
+
+    <!-- slider container -->
+    <div class="container slider">
+
+        <!-- enumerate all photos -->
+        <img width="800" height="500" ng-repeat="photo in photos track by $_Index" class="slide" ng-swipe-right="showPrev()" ng-swipe-left="showNext()" ng-show="isActive($index)" ng-src="{{photo.src}}" />
+
+        <!-- prev / next controls -->
+        <a class="arrow prev" href="#" ng-click="showPrev()"></a>
+        <a class="arrow next" href="#" ng-click="showNext()"></a>
+
+    </div>
+
+</div>
+
