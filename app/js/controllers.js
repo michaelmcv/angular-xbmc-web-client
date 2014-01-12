@@ -7,11 +7,11 @@ angular.module('myApp.controllers', []).
 
     var resetData = function() {
         $scope.hasPhotos = false;
-        $scope.dirs = { list: []};
+        $scope.dirsMetaData = { list: []};
         $scope.photoMetaData = { list: []};
-        $scope.photos = [];
+        $scope.loadedPhoto = {};
+        $scope.galleryIndex = 0;
     }
-
 
     var retrieveXBMCData = function(path) {
 
@@ -28,7 +28,7 @@ angular.module('myApp.controllers', []).
 
                     if(file.filetype == 'directory')
                     {
-                        $scope.dirs.list.push(file);
+                        $scope.dirsMetaData.list.push(file);
                     }
                     else
                     {
@@ -39,69 +39,63 @@ angular.module('myApp.controllers', []).
 
                 if($scope.hasPhotos)
                 {
-
-                    for(var i = 0; i < $scope.photoMetaData.list.length; i++) {
-
-                        var thisPhoto = {src:''};
-                        var photoMetaData = $scope.photoMetaData.list[i];
-                        var vfsPath = photoMetaData.file;
-                        var request = '{"jsonrpc": "2.0", "method": "Files.preparedownload", "params": { "path": "'+vfsPath+'" }, "id": 1}';
-
-                        Restangular.all('')
-                            .customGETLIST('jsonrpc',{request: request})
-                            .then(function(result) {
-
-                                thisPhoto.src = 'http://raspbmc.mmv.ie:3128/' + result.details.path;
-                                $scope.photos.push(thisPhoto);
-                            });
-
-                    }
-
-
+                    //load initial photo retrieved from gallery
+                   //debugger;
+                    retrieveXbmcPhotoSource($scope.galleryIndex);
                 }
             });
     }
 
-    //re-load data
-    $scope.changeRootContext = function(path){
+    //load requested data
+    $scope.loadGallery = function(galleryPath){
         resetData();
-        retrieveXBMCData(path);
+        retrieveXBMCData(galleryPath);
     };
 
-    $scope.returnToStart = function() {
+    var retrieveXbmcPhotoSource = function(galleryIndex) {
 
-        //reset
-        resetData();
-        retrieveXBMCData('nfs://192.168.0.50/media/core/photos');
+        var thisPhotoMetaData = $scope.photoMetaData.list[galleryIndex];
+        var thisPhoto = {index: galleryIndex,src:'', label: thisPhotoMetaData.label};
+        var vfsPath = thisPhotoMetaData.file;
+        var request = '{"jsonrpc": "2.0", "method": "Files.preparedownload", "params": { "path": "'+vfsPath+'" }, "id": 1}';
 
+        Restangular.all('')
+            .customGETLIST('jsonrpc',{request: request})
+            .then(function(result) {
+
+                thisPhoto.src = 'http://raspbmc.mmv.ie:3128/' + result.details.path;
+                $scope.loadedPhoto = thisPhoto;
+                //$scope.photos.push(thisPhoto);
+            });
     }
 
-    //photo slider functions
-    // initial image index
-    $scope._Index = 0;
+    $scope.displayPrevPhoto = function() {
+        $scope.galleryIndex--;
+        changeGalleryPhoto();
+    }
 
-    // if a current image is the same as requested image
-    $scope.isActive = function (index) {
-        return $scope._Index === index;
-    };
+    $scope.displayNextPhoto = function() {
+        $scope.galleryIndex++;
+        changeGalleryPhoto();
+    }
 
-    // show prev image
-    $scope.showPrev = function () {
-        $scope._Index = ($scope._Index > 0) ? --$scope._Index : $scope.photos.length - 1;
-    };
+    var changeGalleryPhoto = function() {
+        $scope.loadedPhoto = {};
+        retrieveXbmcPhotoSource($scope.galleryIndex);
+    }
 
-    // show next image
-    $scope.showNext = function () {
-        $scope._Index = ($scope._Index < $scope.photos.length - 1) ? ++$scope._Index : 0;
-    };
+    var rootGallery = function() {
+        //reset
+        resetData();
+        retrieveXBMCData('nfs://192.168.0.50/media/main/photos');
+    }
 
-    // show a certain image
-    $scope.showPhoto = function (index) {
-        $scope._Index = index;
-    };
+    //TODO tidy this up!
+    $scope.tempRootGallery = function() {
+        rootGallery();
+    }
 
     //initialise and then get root data
-    resetData();
-    retrieveXBMCData('nfs://192.168.0.50/media/core/photos');
+    rootGallery();
 
   }]);

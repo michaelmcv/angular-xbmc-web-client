@@ -1,28 +1,37 @@
-<p>XBMC photo gallery</p>
+<h1>XBMC media gallery app</h1>
 
-<input type="search" ng-model="q" placeholder="filter photos..." />
+<a href="" ng-cloak ng-click='tempRootGallery()'>Back to Root</a><br/>
+Search <input type="search" ng-model="q" placeholder="filter photos..." />
 
 <ul>
-    <li ng-repeat="dir in dirs.list | filter:q">
-        <a href="" ng-click='changeRootContext(dir.file)'>{{dir.label}}</a>
-    </li>
-    <li> <a href="" ng-cloak ng-click='returnToStart()'>Back to Root</a>
+    <li ng-repeat="dir in dirsMetaData.list | filter:q">
+        <a href="" ng-click='loadGallery(dir.file)'>{{dir.label}}</a>
     </li>
 </ul>
 
-<div ng-show="hasPhotos">
+<!-- main gallery pane-->
+<div ng-if="hasPhotos">
 
-    <!-- slider container -->
-    <div class="container slider">
+    <!-- photo container -->
+    <div>
+        <h4>{{loadedPhoto.label}}</h4>
+        <h4>photos in section: {{photoMetaData.list.length}} </h4>
+    </div>
+    <div>
+        <!-- prev / next controls -->
+        <a href="" ng-click="displayPrevPhoto()">prev</a> | <a href="" ng-click="displayNextPhoto()">next</a>
+    </div>
+    <div>
 
         <!-- enumerate all photos -->
-        <img width="800" height="500" ng-repeat="photo in photos track by $_Index" class="slide" ng-swipe-right="showPrev()" ng-swipe-left="showNext()" ng-show="isActive($index)" ng-src="{{photo.src}}" />
-
-        <!-- prev / next controls -->
-        <a class="arrow prev" href="#" ng-click="showPrev()"></a>
-        <a class="arrow next" href="#" ng-click="showNext()"></a>
+        <img style="max-width: 100%; max-height: 100%;" src="{{loadedPhoto.src}}"/
 
     </div>
 
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
 </div>
 
