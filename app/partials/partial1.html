@@ -3,12 +3,14 @@ Search <input type="search" ng-model="q" placeholder="filter photos..." />
 </div>
 <br/>
 <br/>
-<ul>
-    <li><a href="" ng-cloak ng-click='tempRootGallery()'>Back to Root</a><br/></li>
-    <li ng-repeat="dir in dirsMetaData.list | filter:q">
-        <a href="" ng-click='loadGallery(dir.file)'>{{dir.label}}</a>
-    </li>
-</ul>
+<div class="list-group">
+    <ul>
+        <li class="list-group-item"><a href="" ng-cloak ng-click='tempRootGallery()'>Back to Root</a><br/></li>
+        <li class="list-group-item" ng-repeat="dir in dirsMetaData.list | filter:q">
+            <a href="" ng-click='loadGallery(dir.file)'>{{dir.label}}</a>
+        </li>
+    </ul>
+</div>
 <!-- gallery breadcrumbs-->
 <div gallery-breadcrumbs current-gallery-path="{{galleryPath}}">
 
