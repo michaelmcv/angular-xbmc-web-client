@@ -14,6 +14,7 @@ config(['$routeProvider', 'RestangularProvider', function($routeProvider, Restan
 
     //configure routes to access views
     $routeProvider.when('/gallery', {templateUrl: 'partials/partial1.html', controller: 'GalleryController'});
+    $routeProvider.when('/videos', {templateUrl: 'partials/partial2.html', controller: 'VideoLibraryController'});
     $routeProvider.otherwise({redirectTo: '/gallery'});
 
     RestangularProvider.setBaseUrl('http://raspbmc.mmv.ie:3128');

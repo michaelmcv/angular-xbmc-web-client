@@ -1,36 +1,35 @@
-<h1>XBMC media gallery app</h1>
-
-<a href="" ng-cloak ng-click='tempRootGallery()'>Back to Root</a><br/>
+<div>
 Search <input type="search" ng-model="q" placeholder="filter photos..." />
-
+</div>
+<br/>
+<br/>
 <ul>
+    <li><a href="" ng-cloak ng-click='tempRootGallery()'>Back to Root</a><br/></li>
     <li ng-repeat="dir in dirsMetaData.list | filter:q">
         <a href="" ng-click='loadGallery(dir.file)'>{{dir.label}}</a>
     </li>
 </ul>
+<!-- gallery breadcrumbs-->
+<div gallery-breadcrumbs current-gallery-path="{{galleryPath}}">
 
+</div>
 <!-- main gallery pane-->
 <div ng-if="hasPhotos">
-
-    <!-- photo container -->
+    <!-- photo containers -->
     <div>
-        <h4>{{loadedPhoto.label}}</h4>
-        <h4>photos in section: {{photoMetaData.list.length}} </h4>
+        <h3>{{loadedPhoto.label}}</h3>
     </div>
-    <div>
+    <div id='galleryControl'>
         <!-- prev / next controls -->
-        <a href="" ng-click="displayPrevPhoto()">prev</a> | <a href="" ng-click="displayNextPhoto()">next</a>
+        <h4>photo {{galleryIndex + 1}} of {{photoMetaData.list.length}}</h4>
+        <a href="" ng-if="galleryIndex > 0" ng-click="displayPrevPhoto();scrollTo('galleryControl')">prev</a> | <a href="" ng-if="galleryIndex < photoMetaData.list.length - 1" ng-click="displayNextPhoto();">next</a>
     </div>
     <div>
-
-        <!-- enumerate all photos -->
-        <img style="max-width: 100%; max-height: 100%;" src="{{loadedPhoto.src}}"/
+        <!-- display selected photo -->
+        <img style="max-width: 100%;" src="{{loadedPhoto.src}}"/>
 
     </div>
 
-    <br/>
-    <br/>
-    <br/>
     <br/>
     <br/>
 </div>

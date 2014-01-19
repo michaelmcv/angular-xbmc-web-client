@@ -2,9 +2,10 @@
 
 /* Filters */
 
+//TODO refactor this to a directive, more appropriate for manipulating HTML
 angular.module('myApp.filters', []).
-  filter('interpolate', ['version', function(version) {
-    return function(text) {
-      return String(text).replace(/\%VERSION\%/mg, version);
+    filter('breadcrumbs', ['version', function(version) {
+    return function(currentGalleryPath) {
+
     }
   }]);
