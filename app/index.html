@@ -10,15 +10,23 @@
 
       <!-- header -->
       <nav class="navbar navbar-default" role="navigation">
+
           <ul class="nav navbar-nav">
-              <li><a href="#/gallery">Gallery</a></li>
+              <li><a href="#/gallery">Photos</a></li>
               <li><a href="#/videos">Videos</a></li>
           </ul>
       </nav>
-
-      <h1>XBMC media gallery app</h1>
-
-      <div ng-view></div>
+      <div class="row">
+        <div class="col-md-8">
+            <h3>XBMC media app</h3>
+        </div>
+        <div class="col-md-4">
+            <h3> <input type="search" ng-model="q" placeholder="filter media..." /></h3>
+        </div>
+      </div>
+      <!-- angular partials applied here -->
+      <div class="container" ng-view>
+      </div>
 
   </div>
 

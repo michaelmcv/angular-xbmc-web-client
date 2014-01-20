@@ -1,38 +1,37 @@
-<div>
-Search <input type="search" ng-model="q" placeholder="filter photos..." />
-</div>
-<br/>
-<br/>
-<div class="list-group">
-    <ul>
-        <li class="list-group-item"><a href="" ng-cloak ng-click='tempRootGallery()'>Back to Root</a><br/></li>
-        <li class="list-group-item" ng-repeat="dir in dirsMetaData.list | filter:q">
-            <a href="" ng-click='loadGallery(dir.file)'>{{dir.label}}</a>
-        </li>
-    </ul>
-</div>
-<!-- gallery breadcrumbs-->
-<div gallery-breadcrumbs current-gallery-path="{{galleryPath}}">
-
-</div>
-<!-- main gallery pane-->
-<div ng-if="hasPhotos">
-    <!-- photo containers -->
-    <div>
-        <h3>{{loadedPhoto.label}}</h3>
+<div class="row">
+    <!-- gallery breadcrumbs-->
+    <div class="col-md-12" ng-if="hasPhotos">
+        <div class="row">
+            <div class="col-md-8">
+                <h3>{{loadedPhoto.label}}</h3>
+            </div>
+            <div class="col-md-4">
+                <h3>photo {{galleryIndex + 1}} of {{photoMetaData.list.length}}</h3>
+            </div>
+        </div>
     </div>
-    <div id='galleryControl'>
+</div>
+<div class="row">
+
+    <div class="col-md-3 list-group">
+        <ul style="margin-top: 5px;">
+            <li class="list-group-item"><a href="" ng-cloak ng-click='tempRootGallery()'>Home</a><br/></li>
+            <li class="list-group-item" ng-repeat="dir in dirsMetaData.list | filter:q">
+                <a href="" ng-click='loadGallery(dir.file)'>{{dir.label}}</a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-9" ng-if="hasPhotos">
+
         <!-- prev / next controls -->
-        <h4>photo {{galleryIndex + 1}} of {{photoMetaData.list.length}}</h4>
-        <a href="" ng-if="galleryIndex > 0" ng-click="displayPrevPhoto();scrollTo('galleryControl')">prev</a> | <a href="" ng-if="galleryIndex < photoMetaData.list.length - 1" ng-click="displayNextPhoto();">next</a>
-    </div>
-    <div>
+        <div id='galleryControl'>
+            <a href="" ng-if="galleryIndex > 0" ng-click="displayPrevPhoto();scrollTo('galleryControl')">prev</a> | <a href="" ng-if="galleryIndex < photoMetaData.list.length - 1" ng-click="displayNextPhoto();">next</a>
+        </div>
         <!-- display selected photo -->
-        <img style="max-width: 100%;" src="{{loadedPhoto.src}}"/>
-
+        <img class="img-responsive" src="{{loadedPhoto.src}}"/>
     </div>
-
-    <br/>
-    <br/>
 </div>
+
+
+
 
