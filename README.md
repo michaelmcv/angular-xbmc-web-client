@@ -6,7 +6,7 @@ This repo is primarily an exercise is skilling up with the angularjs and bootstr
 The  developed application can be used to browse and view photographs
 accessible from an pre-configured XBMC (xbox media centre) service.
 
-The current incaration of the application will only work against an XBMC service
+The current incarnation of the application will only work against an XBMC service
 that is serving media content via an NFS network service (may look at extending this in the future)
 
 angularjs is used in conjunction with Restangular to make RESTful data requests against the http enabled XBMC service, to determine the photo gallery

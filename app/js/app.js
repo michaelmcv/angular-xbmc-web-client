@@ -2,13 +2,13 @@
 
 
 // Declare app level module which depends on filters, and services
-angular.module('myApp', [
+angular.module('xbmcWebClient', [
   'restangular',
   'ngRoute',
-  'myApp.filters',
-  'myApp.services',
-  'myApp.directives',
-  'myApp.controllers'
+  'xbmcWebClient.filters',
+  'xbmcWebClient.services',
+  'xbmcWebClient.directives',
+  'xbmcWebClient.controllers'
 ]).
 config(['$routeProvider', 'RestangularProvider', function($routeProvider, RestangularProvider) {
 

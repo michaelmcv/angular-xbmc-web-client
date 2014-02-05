@@ -2,7 +2,7 @@
 
 /* Controllers */
 
-angular.module('myApp.controllers', []).
+angular.module('xbmcWebClient.controllers', []).
   controller('GalleryController', ['$scope','$location','$anchorScroll', 'Restangular', function($scope, $location, $anchorScroll, Restangular) {
 
     var rootGalleryPath = 'nfs://192.168.0.50/media/main/photos';

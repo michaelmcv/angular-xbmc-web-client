@@ -3,7 +3,7 @@
 /* Directives */
 
 
-angular.module('myApp.directives', []).
+angular.module('xbmcWebClient.directives', []).
   directive('galleryBreadcrumbs', ['version', function(version) {
     return function(scope, elm, attrs) {
         //globals
