@@ -2,7 +2,7 @@
 <html lang="en" ng-app="myApp">
 <head>
   <meta charset="utf-8">
-  <title>My AngularJS App</title>
+  <title>XBMC media app</title>
   <link rel="stylesheet" href="css/bootstrap.min.css"/>
 </head>
 <body>
@@ -25,9 +25,14 @@
         </div>
       </div>
       <!-- angular partials applied here -->
-      <div class="container" ng-view>
+      <ng-view>
+      </ng-view>
+      <!-- footer -->
+      <div class="row">
+          <div class="col-md-12 text-center">
+              <h6>&copy; McVeigh</h6>
+          </div>
       </div>
-
   </div>
 
 
