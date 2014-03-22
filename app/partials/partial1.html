@@ -1,37 +1,39 @@
-<div class="row">
-    <!-- gallery breadcrumbs-->
-    <div class="col-md-12" ng-if="hasPhotos">
-        <div class="row">
-            <div class="col-md-8">
-                <h3>{{loadedPhoto.label}}</h3>
-            </div>
-            <div class="col-md-4">
-                <h3>photo {{galleryIndex + 1}} of {{photoMetaData.list.length}}</h3>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row">
-
-    <div class="col-md-3 list-group">
-        <ul style="margin-top: 5px;">
-            <li class="list-group-item"><a href="" ng-cloak ng-click='tempRootGallery()'>Home</a><br/></li>
-            <li class="list-group-item" ng-repeat="dir in dirsMetaData.list | filter:q">
+<nav class="navbar-inner">
+    <div class="container">
+        <ul class="nav navbar-nav">
+            <li><a class="glyphicon glyphicon-home" href="" ng-cloak ng-click='tempRootGallery()'></a><br/></li>
+            <li ng-repeat="dir in dirsMetaData.list | filter:query">
                 <a href="" ng-click='loadGallery(dir.file)'>{{dir.label}}</a>
             </li>
-        </ul>
+            <li ng-if="!isRootGallery">
+                <a href="" ng-cloak ng-click='loadGallery(previousGallery.dir)'> <<< Back to {{previousGallery.label}}</a>
+            </li>
+         </ul>
     </div>
-    <div class="col-md-9" ng-if="hasPhotos">
-
+</nav>
+<div class="col-md-12 alert alert-info" ng-cloak ng-if="!hasPhotos">
+    <strong>Awwww Snap!!</strong>
+    <br/>No photos in here yet - this directory is empty. <br/> Try some of the other folders above there.
+</div>
+<div class="row">
+    <div class="col-md-12" ng-if="hasPhotos">
+        <div class="col-md-3">
+            <h4>{{loadedPhoto.label}}</h4>
+        </div>
         <!-- prev / next controls -->
-        <div id='galleryControl'>
-            <a href="" ng-if="galleryIndex > 0" ng-click="displayPrevPhoto();scrollTo('galleryControl')">prev</a> | <a href="" ng-if="galleryIndex < photoMetaData.list.length - 1" ng-click="displayNextPhoto();">next</a>
+        <div class="col-md-6">
+            <div id='galleryControl' class="text-center">
+                <h5>
+                    <a href="" ng-if="galleryIndex > 0" ng-click="displayPrevPhoto()">prev pic</a>
+                    <span ng-if="galleryIndex != 0 && galleryIndex != photoMetaData.list.length - 1"> | </span>
+                    <a href="" ng-if="galleryIndex < photoMetaData.list.length - 1" ng-click="displayNextPhoto();">next pic</a>
+                </h5>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <h4>photo {{galleryIndex + 1}} of {{photoMetaData.list.length}}</h4>
         </div>
         <!-- display selected photo -->
-        <img class="img-responsive img-rounded" src="{{loadedPhoto.src}}"/>
+        <img class="img-responsive img-rounded center-block" ng-src="{{loadedPhoto.src}}"/>
     </div>
 </div>
-
-
-
-

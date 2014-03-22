@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="ng-app">
+<html lang="en" ng-app="xbmcWebClient">
 <head>
   <meta charset="utf-8">
   <title>XBMC Web Client</title>
@@ -7,30 +7,26 @@
 </head>
 <body>
   <div class="container">
-
       <!-- header -->
-      <nav class="navbar navbar-default" role="navigation">
-
+      <nav class="navbar navbar-inverse" role="navigation">
           <ul class="nav navbar-nav">
+              <li><a class="navbar-brand" href="#/gallery">Media Gallery</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
               <li><a href="#/gallery">Photos</a></li>
               <li><a href="#/videos">Videos</a></li>
+              <li><a>Filter: <input ng-model="query"/></a></li>
+              <li><a href=""></a></li>
           </ul>
       </nav>
-      <div class="row">
-        <div class="col-md-8">
-            <h3>XBMC Web Client</h3>
-        </div>
-        <div class="col-md-4">
-            <h3> <input type="search" ng-model="q" placeholder="filter media..." /></h3>
-        </div>
-      </div>
+
       <!-- angular partials applied here -->
       <ng-view>
       </ng-view>
       <!-- footer -->
       <div class="row">
           <div class="col-md-12 text-center">
-              <h6>&copy; McVeigh</h6>
+              <h6>&copy; M McVeigh</h6>
           </div>
       </div>
   </div>

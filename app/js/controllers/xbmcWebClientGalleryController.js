@@ -3,17 +3,15 @@ define(function() {
 
         var rootGalleryPath = 'nfs://192.168.0.50/media/main/photos';
 
-        $scope.scrollTo = function(id) {
-            $location.hash(id);
-            $anchorScroll();
-        }
-
         var resetData = function() {
             $scope.hasPhotos = false;
+            $scope.hasDirs = false;
             $scope.dirsMetaData = { list: []};
             $scope.photoMetaData = { list: []};
             $scope.loadedPhoto = {};
             $scope.galleryIndex = 0;
+            $scope.previousGallery = '';
+            $scope.isRootGallery = true;
         }
 
         var retrieveXBMCData = function(path) {
@@ -31,6 +29,7 @@ define(function() {
 
                     if(file.filetype == 'directory')
                     {
+                        $scope.hasDirs = true;
                         $scope.dirsMetaData.list.push(file);
                     }
                     else
@@ -42,8 +41,14 @@ define(function() {
 
                 if($scope.hasPhotos)
                 {
+                    $scope.loadedPhoto = {src:'/app/img/ajax-loader.gif'};
                     //load initial photo retrieved from gallery
                     retrieveXbmcPhotoSource($scope.galleryIndex);
+                }
+
+                if(!$scope.isRootGallery)
+                {
+                    $scope.previousGallery = evaluatePrevGallery(path);
                 }
             });
         }
@@ -64,9 +69,14 @@ define(function() {
             });
         }
 
-        $scope.scrollTo = function(id) {
-            $location.hash(id);
-            $anchorScroll();
+        var evaluatePrevGallery = function(emptyNfsGalleryPath)
+        {
+            //TODO some effort here - come on tidy this up!
+            var paths = emptyNfsGalleryPath.slice(0,-1).split("/");
+            var prevGallery = {dir:emptyNfsGalleryPath.slice(0,-1).slice(0,-paths[paths.length - 1].length),
+                               label:paths[paths.length - 2]}
+
+            return prevGallery;
         }
 
         $scope.displayPrevPhoto = function() {
@@ -80,7 +90,12 @@ define(function() {
         }
 
         var changeGalleryPhoto = function() {
-            $scope.loadedPhoto = {};
+            /*
+             * switch out photo image for a gif loader
+             * this will be displayed until promise from main photo
+             * request has completed
+             */
+            $scope.loadedPhoto = {src:'/app/img/ajax-loader.gif'};
             retrieveXbmcPhotoSource($scope.galleryIndex);
         }
 
@@ -96,6 +111,12 @@ define(function() {
         $scope.loadGallery = function(galleryPath){
 
             resetData();
+
+            if(galleryPath.slice(0,-1) != rootGalleryPath)
+            {
+                $scope.isRootGallery = false;
+            }
+
             retrieveXBMCData(galleryPath);
         };
 
