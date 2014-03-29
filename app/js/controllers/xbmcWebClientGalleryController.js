@@ -9,7 +9,7 @@ define(function() {
             $scope.dirsMetaData = { list: []};
             $scope.photoMetaData = { list: []};
             $scope.loadedPhoto = {};
-            $scope.galleryIndex = 0;
+            $scope.galleryIndex = -1;
             $scope.previousGallery = '';
             $scope.isRootGallery = true;
         }
@@ -39,33 +39,16 @@ define(function() {
                     }
                 }
 
+                //initialise the galleryIndex at 1st position - directive handles loading images
                 if($scope.hasPhotos)
                 {
-                    $scope.loadedPhoto = {src:'/app/img/ajax-loader.gif'};
-                    //load initial photo retrieved from gallery
-                    retrieveXbmcPhotoSource($scope.galleryIndex);
+                    $scope.galleryIndex = 0;
                 }
 
                 if(!$scope.isRootGallery)
                 {
                     $scope.previousGallery = evaluatePrevGallery(path);
                 }
-            });
-        }
-
-        var retrieveXbmcPhotoSource = function(galleryIndex) {
-
-            var thisPhotoMetaData = $scope.photoMetaData.list[galleryIndex];
-            var thisPhoto = {index: galleryIndex,src:'', label: thisPhotoMetaData.label};
-            var vfsPath = thisPhotoMetaData.file;
-
-            //prepare xbmc for download link details
-            var result = xbmcRemoteService.getXbmcMediaData(vfsPath, 'prepare');
-
-            result.then(function(result) {
-
-                thisPhoto.src = 'http://raspbmc.mmv.ie:3128/' + result.details.path;
-                $scope.loadedPhoto = thisPhoto;
             });
         }
 
@@ -81,22 +64,10 @@ define(function() {
 
         $scope.displayPrevPhoto = function() {
             $scope.galleryIndex--;
-            changeGalleryPhoto();
         }
 
         $scope.displayNextPhoto = function() {
             $scope.galleryIndex++;
-            changeGalleryPhoto();
-        }
-
-        var changeGalleryPhoto = function() {
-            /*
-             * switch out photo image for a gif loader
-             * this will be displayed until promise from main photo
-             * request has completed
-             */
-            $scope.loadedPhoto = {src:'/app/img/ajax-loader.gif'};
-            retrieveXbmcPhotoSource($scope.galleryIndex);
         }
 
         var rootGallery = function() {

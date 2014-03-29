@@ -42,6 +42,16 @@ define([], function() {
             return $restangular.all('').customGETLIST('jsonrpc',{request: request});
         }
 
+        this.buildImageSrc = function(imageIndex, galleryMetaData)
+        {
+            var newImageMetaData = galleryMetaData.list[imageIndex];
+            var vfsPath = newImageMetaData.file;
+
+            //prepare xbmc for download link details
+            var result = this.getXbmcMediaData(vfsPath, 'prepare');
+
+            return result;
+        }
     }
 
     xbmcRemoteService.$inject = ['Restangular'];
