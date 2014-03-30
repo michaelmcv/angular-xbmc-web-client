@@ -1,8 +1,8 @@
 <nav class="navbar-inner">
     <div class="container">
         <ul class="nav navbar-nav">
-            <li><a class="glyphicon glyphicon-home" href="" ng-cloak ng-click='tempRootGallery()'></a><br/></li>
-            <li ng-repeat="dir in dirsMetaData.list | filter:query">
+            <li><a class="glyphicon glyphicon-home" href="" ng-cloak ng-click='rootGallery()'></a><br/></li>
+            <li ng-repeat="dir in xbmcMetaData.dirs.list | filter:query">
                 <a href="" ng-click='loadGallery(dir.file)'>{{dir.label}}</a>
             </li>
             <li ng-if="!isRootGallery">
@@ -11,7 +11,9 @@
          </ul>
     </div>
 </nav>
-<div class="col-md-12 alert alert-info" ng-cloak ng-if="!hasPhotos">
+<div class="col-md-3">
+</div>
+<div class="col-md-6 alert alert-info" ng-cloak ng-if="!hasPhotos">
     <strong>Awwww Snap!!</strong>
     <br/>No photos in here yet - this directory is empty. <br/> Try some of the other folders above there.
 </div>
@@ -25,15 +27,15 @@
             <div id='galleryControl' class="text-center">
                 <h5>
                     <a href="" ng-if="galleryIndex > 0" ng-click="displayPrevPhoto()">prev</a>
-                    <span ng-if="galleryIndex != 0 && galleryIndex != photoMetaData.list.length - 1"> | </span>
-                    <a href="" ng-if="galleryIndex < photoMetaData.list.length - 1" ng-click="displayNextPhoto();">next <pic></pic></a>
+                    <span ng-if="galleryIndex != 0 && galleryIndex != xbmcMetaData.photos.list.length - 1"> | </span>
+                    <a href="" ng-if="galleryIndex < xbmcMetaData.photos.list.length - 1" ng-click="displayNextPhoto();">next <pic></pic></a>
                 </h5>
             </div>
         </div>
         <div class="col-md-3">
-            <h4>photo {{galleryIndex + 1}} of {{photoMetaData.list.length}}</h4>
+            <h4>photo {{galleryIndex + 1}} of {{xbmcMetaData.photos.list.length}}</h4>
         </div>
         <!-- display selected photo from the xmbc gallery -->
-        <xbmc-gallery-image photo-index="{{galleryIndex}}" photo-gallery="{{photoMetaData}}"/>
+        <xbmc-gallery-image photo-index="{{galleryIndex}}" photo-gallery="{{xbmcMetaData.photos}}"/>
     </div>
 </div>

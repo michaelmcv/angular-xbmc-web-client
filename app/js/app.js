@@ -3,10 +3,11 @@ define([
     'controllers/xbmcWebClientGalleryController',
     'controllers/xbmcWebClientVideoController',
     'services/xbmcRemoteService',
+    'config/xbmcConstants',
     'directives/xbmcGalleryImage',
     'restangular',
     'angularRoute'
-    ],function (angular, xbmcWebClientGalleryController, xbmcWebClientVideoController, xbmcRemoteService, xbmcGalleryImage) {
+    ],function (angular, xbmcWebClientGalleryController, xbmcWebClientVideoController, xbmcRemoteService, xbmcConstants, xbmcGalleryImage) {
 
     'use strict';
 
@@ -18,10 +19,10 @@ define([
         ]);
 
         xbmcWebClientApp.controller('xbmcWebClientGalleryController', xbmcWebClientGalleryController);
-
         xbmcWebClientApp.controller('xbmcWebClientVideoController', xbmcWebClientVideoController);
 
         xbmcWebClientApp.service('xbmcRemoteService', xbmcRemoteService);
+        xbmcWebClientApp.service('xbmcConstants', xbmcConstants);
 
         xbmcWebClientApp.directive('xbmcGalleryImage', xbmcGalleryImage);
 

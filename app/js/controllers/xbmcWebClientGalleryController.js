@@ -1,14 +1,12 @@
 define(function() {
-    var xbmcWebClientGalleryController = function($scope, $location, $anchorScroll, Restangular, xbmcRemoteService) {
-
-        var rootGalleryPath = 'nfs://192.168.0.50/media/main/photos';
+    var xbmcWebClientGalleryController = function($scope, $location, $anchorScroll, Restangular, xbmcRemoteService, xbmcConstants) {
 
         var resetData = function() {
+
+            //initial values
             $scope.hasPhotos = false;
             $scope.hasDirs = false;
-            $scope.dirsMetaData = { list: []};
-            $scope.photoMetaData = { list: []};
-            $scope.loadedPhoto = {};
+            $scope.xbmcMetaData = { dirs:{list:[]}, photos:{list:[]}}
             $scope.galleryIndex = -1;
             $scope.previousGallery = '';
             $scope.isRootGallery = true;
@@ -30,16 +28,17 @@ define(function() {
                     if(file.filetype == 'directory')
                     {
                         $scope.hasDirs = true;
-                        $scope.dirsMetaData.list.push(file);
+                        $scope.xbmcMetaData.dirs.list.push(file);
                     }
                     else
                     {
                         $scope.hasPhotos = true;
-                        $scope.photoMetaData.list.push(file);
+                        $scope.xbmcMetaData.photos.list.push(file);
                     }
                 }
 
-                //initialise the galleryIndex at 1st position - directive handles loading images
+                // change the galleryIndex at 1st position when we find an image
+                // template directive will handle loading of images
                 if($scope.hasPhotos)
                 {
                     $scope.galleryIndex = 0;
@@ -70,12 +69,12 @@ define(function() {
             $scope.galleryIndex++;
         }
 
-        var rootGallery = function() {
+        $scope.rootGallery = function() {
             $scope.galleryPath = '';
 
             //reset
             resetData();
-            retrieveXBMCData(rootGalleryPath);
+            retrieveXBMCData(xbmcConstants.rootNfsGalleryPath);
         }
 
         //load requested data
@@ -83,7 +82,7 @@ define(function() {
 
             resetData();
 
-            if(galleryPath.slice(0,-1) != rootGalleryPath)
+            if(galleryPath.slice(0,-1) != xbmcConstants.rootNfsGalleryPath)
             {
                 $scope.isRootGallery = false;
             }
@@ -92,15 +91,18 @@ define(function() {
         };
 
         //TODO tidy this up!
-        $scope.tempRootGallery = function() {
-            rootGallery();
+        var initialise = function() {
+
+            //reset
+            resetData();
+            retrieveXBMCData(xbmcConstants.rootNfsGalleryPath);
         }
 
         //initialise and then get root data
-        rootGallery();
+        initialise();
     }
 
-    xbmcWebClientGalleryController.$inject = ['$scope','$location','$anchorScroll', 'Restangular', 'xbmcRemoteService'];
+    xbmcWebClientGalleryController.$inject = ['$scope','$location','$anchorScroll', 'Restangular', 'xbmcRemoteService', 'xbmcConstants'];
 
     return xbmcWebClientGalleryController;
 });
