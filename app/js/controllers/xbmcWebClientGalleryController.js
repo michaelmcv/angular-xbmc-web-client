@@ -17,7 +17,7 @@ define(function() {
             $scope.galleryPath = path;
 
             //get media content for dir @ path from remote xbmc service
-            var result = xbmcRemoteService.getXbmcMediaData(path, 'directory');
+            var result = xbmcRemoteService.getXbmcMediaData(path, xbmcConstants.directoryType);
 
             //resolve the data in the returned promise
             result.then(function(result) {
@@ -51,6 +51,25 @@ define(function() {
             });
         }
 
+        $scope.rootGallery = function() {
+            $scope.galleryPath = '';
+
+            initialise();
+        }
+
+        //load requested data
+        $scope.loadGallery = function(galleryPath){
+
+            resetData();
+
+            if(galleryPath.slice(0,-1) != xbmcConstants.rootNfsGalleryPath)
+            {
+                $scope.isRootGallery = false;
+            }
+
+            retrieveXBMCData(galleryPath);
+        };
+
         var evaluatePrevGallery = function(emptyNfsGalleryPath)
         {
             //TODO some effort here - come on tidy this up!
@@ -69,30 +88,7 @@ define(function() {
             $scope.galleryIndex++;
         }
 
-        $scope.rootGallery = function() {
-            $scope.galleryPath = '';
-
-            //reset
-            resetData();
-            retrieveXBMCData(xbmcConstants.rootNfsGalleryPath);
-        }
-
-        //load requested data
-        $scope.loadGallery = function(galleryPath){
-
-            resetData();
-
-            if(galleryPath.slice(0,-1) != xbmcConstants.rootNfsGalleryPath)
-            {
-                $scope.isRootGallery = false;
-            }
-
-            retrieveXBMCData(galleryPath);
-        };
-
-        //TODO tidy this up!
         var initialise = function() {
-
             //reset
             resetData();
             retrieveXBMCData(xbmcConstants.rootNfsGalleryPath);

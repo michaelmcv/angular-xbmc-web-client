@@ -1,12 +1,37 @@
 {
-  "name": "angularjs-seed",
-  "description": "A starter project for AngularJS",
-  "repository": "https://github.com/angular/angular-seed",
+  "name": "angular-xbmc-web-client",
+  "description": "angular xbmc gallery",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/michaelmcv/angular-xbmc-web-client.git"
+  },
   "devDependencies": {
-    "phantomjs" : "~1.9",
-    "karma" : "~0.10",
-    "karma-junit-reporter" : "~0.1",
-    "karma-jasmine" : "~0.1",
-    "karma-ng-scenario" : "~0.1"
+    "phantomjs": "~1.9",
+    "karma": "~0.10",
+    "karma-junit-reporter": "~0.1",
+    "karma-jasmine": "~0.1",
+    "karma-ng-scenario": "~0.1"
+  },
+  "bugs": {
+    "url": "https://github.com/michaelmcv/angular-xbmc-web-client/issues"
+  },
+  "version": "0.0.1",
+  "main": "scripts/web-server.js",
+  "directories": {
+    "example": "example",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "heroku",
+    "xbmc",
+    "gallery"
+  ],
+  "author": "Michael McVeigh",
+  "license": "MIT"
+  "engines": {
+    "node": "0.10.13"
   }
 }
