@@ -31,12 +31,13 @@ var server = require('http').createServer(function(req, res) {
     }
     else
     {
+        console.log('proxy to local node js service')
         proxy.web(req, res, { target: 'http://localhost:' + PROXY_PORT });
     }
 });
 
 //config
-var MAIN_SERVICE_PORT = process.env.PORT  || 5000;
+var MAIN_SERVICE_PORT = process.env.RANDOM_PORT  || 5000;
 
 //print out the env variables (used on Heroku)
 console.log(process.env)
