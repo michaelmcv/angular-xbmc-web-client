@@ -33,7 +33,7 @@ define([
             $routeProvider.when('/videos', {templateUrl: 'partials/partial2.html', controller: 'xbmcWebClientVideoController'});
             $routeProvider.otherwise({redirectTo: '/gallery'});
 
-            RestangularProvider.setBaseUrl('http://raspbmc.mmv.ie:3128');
+            RestangularProvider.setBaseUrl('http://localhost:5050');
 
             // Now let's configure the response extractor for each request
             RestangularProvider.setResponseExtractor(function(response, operation, what, url) {

@@ -4,7 +4,8 @@ var util = require('util'),
     http = require('http'),
     fs = require('fs'),
     url = require('url'),
-    events = require('events');
+    events = require('events'),
+    httpProxy = require('http-proxy');
 
 var DEFAULT_PORT = process.env.PORT || 5000;
 
