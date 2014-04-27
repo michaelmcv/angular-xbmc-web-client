@@ -22,7 +22,8 @@ define(function() {
 
                         xbmcRemoteService.buildImageSrc(newValue, angular.fromJson(attrs.photoGallery)).then(function(result) {
 
-                            var newPhotoSrc = 'http://localhost:5000/' + result.details.path;
+                            //set relative to be caught be node js proxy
+                            var newPhotoSrc = '/' + result.details.path;
                             attrs.$set('src', newPhotoSrc)
                         });
                     }

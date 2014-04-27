@@ -33,8 +33,6 @@ define([
             $routeProvider.when('/videos', {templateUrl: 'partials/partial2.html', controller: 'xbmcWebClientVideoController'});
             $routeProvider.otherwise({redirectTo: '/gallery'});
 
-            RestangularProvider.setBaseUrl('http://localhost:5000');
-
             // Now let's configure the response extractor for each request
             RestangularProvider.setResponseExtractor(function(response, operation, what, url) {
 

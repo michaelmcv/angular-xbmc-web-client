@@ -4,9 +4,15 @@ var util = require('util'),
     http = require('http'),
     fs = require('fs'),
     url = require('url'),
-    events = require('events');
+    events = require('events'),
+    httpProxy = require('http-proxy');
 
-var DEFAULT_PORT = process.env.PROXY_PORT || 5050;
+var DEFAULT_PORT = process.env.PORT || 5000;
+
+//config reverse proxy to make transparent requests to back-end services
+var proxy = httpProxy.createProxyServer({});
+
+console.log('env configuration: ' + process.env.PORT);
 
 function main(argv) {
   new HttpServer({
@@ -51,18 +57,34 @@ HttpServer.prototype.parseUrl_ = function(urlString) {
 };
 
 HttpServer.prototype.handleRequest_ = function(req, res) {
-  var logEntry = req.method + ' ' + req.url;
-  if (req.headers['user-agent']) {
-    logEntry += ' ' + req.headers['user-agent'];
+  /*
+   * handle requests to be proxied to back-end services:
+   * proxy jsonrpc (api) and vfs (images) requests to backend xbmc instance
+   */
+  var BACKEND_XBMC_SERVICE_HOST = process.env.XBMC_HOST || 'raspbmc.mmv.ie:3128';
+
+  if((req.url.indexOf('jsonrpc') != -1 )|| (req.url.indexOf('vfs') != -1 ))
+  {
+    console.log('attempting proxy to xbmc - manually setting remote header for transparent proxied request');
+    proxy.web(req, res, { target: 'http://' + BACKEND_XBMC_SERVICE_HOST });
   }
-  util.puts(logEntry);
-  req.url = this.parseUrl_(req.url);
-  var handler = this.handlers[req.method];
-  if (!handler) {
-    res.writeHead(501);
-    res.end();
-  } else {
-    handler.call(this, req, res);
+  //need to look at little closer at how this is operating - this may be a bit too hacky
+  else
+  {
+      var logEntry = req.method + ' ' + req.url;
+      if (req.headers['user-agent']) {
+          logEntry += ' ' + req.headers['user-agent'];
+      }
+      util.puts(logEntry);
+      req.url = this.parseUrl_(req.url);
+
+      var handler = this.handlers[req.method];
+      if (!handler) {
+          res.writeHead(501);
+          res.end();
+      } else {
+          handler.call(this, req, res);
+      }
   }
 };
 
