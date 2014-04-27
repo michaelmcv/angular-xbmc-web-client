@@ -62,6 +62,7 @@ HttpServer.prototype.handleRequest_ = function(req, res) {
    * proxy jsonrpc (api) and vfs (images) requests to backend xbmc instance
    */
   var BACKEND_XBMC_SERVICE_HOST = process.env.XBMC_HOST || 'raspbmc.mmv.ie:3128';
+  console.log('BACKEND_XBMC_SERVICE_HOST ['+BACKEND_XBMC_SERVICE_HOST+']');
 
   if((req.url.indexOf('jsonrpc') != -1 )|| (req.url.indexOf('vfs') != -1 ))
   {
