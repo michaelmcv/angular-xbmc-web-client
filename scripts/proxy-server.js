@@ -8,9 +8,9 @@ var PROXY_PORT = process.env.PORT  || 5000;
 var MAIN_SERVICE_PORT = process.env.PROXY_PORT || 5050;
 var BACKEND_XBMC_SERVICE_HOST = process.env.XBMC_HOST || 'raspbmc.mmv.ie:3128';
 
-console.log('PROXY_PORT: ' + PROXY_PORT)
-console.log('MAIN_SERVICE_PORT: ' + MAIN_SERVICE_PORT)
-console.log('BACKEND_XBMC_SERVICE_HOST: ' + BACKEND_XBMC_SERVICE_HOST)
+//print out the env variables (used on Heroku)
+console.log(process.env)
+
 //
 // Create a proxy server with custom application logic
 //
@@ -25,7 +25,7 @@ var server = require('http').createServer(function(req, res) {
 
     console.log('current url is: ' + req.url)
 
-    //proxy jsonrpc (api) and vfs (images) requests to backend xbmc insta
+    //proxy jsonrpc (api) and vfs (images) requests to backend xbmc instance
     if((req.url.indexOf('jsonrpc') != -1 )|| (req.url.indexOf('vfs') != -1 ))
     {
         console.log('attempting proxy to xbmc - manually setting remote header for transparent proxied request');
