@@ -45,7 +45,7 @@ define(function() {
 
             result.then(function(result) {
 
-                    thisVideo.src = 'http://raspbmc.mmv.ie:3128/' + result.details.path;
+                    thisVideo.src = '/' + result.details.path;
                     $scope.videoMetaData.list.push(thisVideo);
                 });
         }

@@ -16,7 +16,7 @@
         <li ng-repeat="video in videoMetaData.list | orderBy:'-label':true">
             <span style="font-weight: bold">{{video.label}}</span>
             <br/>
-            <span>stream link: {{video.src}}</span>
+            <span><a href="{{video.src}}" target="_blank">Stream this video</a></span>
         </li>
     </ul>
 </div>
