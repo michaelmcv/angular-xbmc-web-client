@@ -8,17 +8,18 @@ var util = require('util'),
     httpProxy = require('http-proxy');
 
 var DEFAULT_PORT = process.env.PORT || 5000;
+var BACKEND_XBMC_SERVICE_HOST = process.env.XBMC_HOST || 'raspbmc.mmv.ie:3128';
 
 //config reverse proxy to make transparent requests to back-end services
 var proxy = httpProxy.createProxyServer({});
 
-console.log('env configuration: ' + process.env.PORT);
+console.log('env configuration: ' + process.env);
 
 function main(argv) {
   new HttpServer({
     'GET': createServlet(StaticServlet),
     'HEAD': createServlet(StaticServlet)
-  }).start(DEFAULT_PORT);
+  }).start(DEFAULT_PORT, BACKEND_XBMC_SERVICE_HOST);
 }
 
 function escapeHtml(value) {
@@ -44,9 +45,10 @@ function HttpServer(handlers) {
   this.server = http.createServer(this.handleRequest_.bind(this));
 }
 
-HttpServer.prototype.start = function(port) {
+HttpServer.prototype.start = function(port, backEndXbmcServiceHost) {
   this.port = port;
   this.server.listen(port);
+  this.backEndXbmcServiceHost = backEndXbmcServiceHost;
   util.puts('Http Server running at http://localhost:' + port + '/');
 };
 
@@ -61,13 +63,12 @@ HttpServer.prototype.handleRequest_ = function(req, res) {
    * handle requests to be proxied to back-end services:
    * proxy jsonrpc (api) and vfs (images) requests to backend xbmc instance
    */
-  var BACKEND_XBMC_SERVICE_HOST = process.env.XBMC_HOST || 'raspbmc.mmv.ie:3128';
-  console.log('BACKEND_XBMC_SERVICE_HOST ['+BACKEND_XBMC_SERVICE_HOST+']');
+  console.log('BACKEND_XBMC_SERVICE_HOST ['+this.backEndXbmcServiceHost+']');
 
   if((req.url.indexOf('jsonrpc') != -1 )|| (req.url.indexOf('vfs') != -1 ))
   {
     console.log('attempting proxy to xbmc - manually setting remote header for transparent proxied request');
-    proxy.web(req, res, { target: 'http://' + BACKEND_XBMC_SERVICE_HOST });
+    proxy.web(req, res, { target: 'http://' + this.backEndXbmcServiceHost });
   }
   //need to look at little closer at how this is operating - this may be a bit too hacky
   else
