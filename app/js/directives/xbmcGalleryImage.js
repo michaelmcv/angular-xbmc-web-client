@@ -22,7 +22,7 @@ define(function() {
 
                         xbmcRemoteService.buildImageSrc(newValue, angular.fromJson(attrs.photoGallery)).then(function(result) {
 
-                            var newPhotoSrc = 'http://localhost:5050/' + result.details.path;
+                            var newPhotoSrc = 'http://localhost:5000/' + result.details.path;
                             attrs.$set('src', newPhotoSrc)
                         });
                     }
