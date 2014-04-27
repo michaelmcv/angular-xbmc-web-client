@@ -4,9 +4,13 @@ var http = require('http'),
     httpProxy = require('http-proxy');
 
 //config
-var MAIN_SERVICE_PORT = process.env.PROXY_PORT || 5050;
 var PROXY_PORT = process.env.PORT  || 5000;
-var BACKEND_XBMC_SERVICE_HOST = process.env.XBMC_HOST+'' || 'raspbmc.mmv.ie:3128';
+var MAIN_SERVICE_PORT = process.env.PROXY_PORT || 5050;
+var BACKEND_XBMC_SERVICE_HOST = process.env.XBMC_HOST || 'raspbmc.mmv.ie:3128';
+
+console.log('PROXY_PORT: ' + PROXY_PORT)
+console.log('MAIN_SERVICE_PORT: ' + MAIN_SERVICE_PORT)
+console.log('BACKEND_XBMC_SERVICE_HOST: ' + BACKEND_XBMC_SERVICE_HOST)
 //
 // Create a proxy server with custom application logic
 //
