@@ -3,14 +3,6 @@
 var http = require('http'),
     httpProxy = require('http-proxy');
 
-//config
-var PROXY_PORT = process.env.PORT  || 5000;
-var MAIN_SERVICE_PORT = process.env.PROXY_PORT || 5050;
-var BACKEND_XBMC_SERVICE_HOST = process.env.XBMC_HOST || 'raspbmc.mmv.ie:3128';
-
-//print out the env variables (used on Heroku)
-console.log(process.env)
-
 //
 // Create a proxy server with custom application logic
 //
@@ -23,20 +15,31 @@ var proxy = httpProxy.createProxyServer({});
 //
 var server = require('http').createServer(function(req, res) {
 
-    console.log('current url is: ' + req.url)
+    //create server specific configuration
+    var PROXY_PORT = process.env.PROXY_PORT || 5050;
+    var BACKEND_XBMC_SERVICE_HOST = process.env.XBMC_HOST || 'raspbmc.mmv.ie:3128';
+
+    console.log('port configuration is PROXY_PORT [' + PROXY_PORT + '] BACKEND_XBMC_SERVICE_HOST [' + BACKEND_XBMC_SERVICE_HOST + ']')
 
     //proxy jsonrpc (api) and vfs (images) requests to backend xbmc instance
     if((req.url.indexOf('jsonrpc') != -1 )|| (req.url.indexOf('vfs') != -1 ))
     {
+
         console.log('attempting proxy to xbmc - manually setting remote header for transparent proxied request');
         req.headers.host = BACKEND_XBMC_SERVICE_HOST;
         proxy.web(req, res, { target: 'http://' + BACKEND_XBMC_SERVICE_HOST });
     }
     else
     {
-        proxy.web(req, res, { target: 'http://localhost:' + MAIN_SERVICE_PORT });
+        proxy.web(req, res, { target: 'http://localhost:' + PROXY_PORT });
     }
 });
 
-console.log("listening on port 5050")
-server.listen(PROXY_PORT);
+//config
+var MAIN_SERVICE_PORT = process.env.PORT  || 5000;
+
+//print out the env variables (used on Heroku)
+console.log(process.env)
+
+console.log("should be listening on port [" + MAIN_SERVICE_PORT + ']')
+server.listen(MAIN_SERVICE_PORT);

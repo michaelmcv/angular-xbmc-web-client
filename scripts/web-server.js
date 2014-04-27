@@ -6,7 +6,7 @@ var util = require('util'),
     url = require('url'),
     events = require('events');
 
-var DEFAULT_PORT = 5050;
+var DEFAULT_PORT = process.env.PROXY_PORT || 5050;
 
 function main(argv) {
   new HttpServer({
